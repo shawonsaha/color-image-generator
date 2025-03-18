@@ -21,6 +21,8 @@ const ImageForm = ({ onGenerate, isLoading }: ImageFormProps) => {
     format: "png",
   });
 
+  const [aspectRatio, setAspectRatio] = useState<string>("1:1");
+
   const handleColorChange = (color: string) => {
     setFormData((prev) => ({ ...prev, color }));
   };
@@ -33,12 +35,20 @@ const ImageForm = ({ onGenerate, isLoading }: ImageFormProps) => {
     if (name === "width" || name === "height") {
       // Ensure dimensions are numbers and within reasonable limits
       const numValue = parseInt(value);
-      if (numValue && numValue > 0 && numValue <= 2000) {
+      if (numValue && numValue > 0 && numValue <= 100000) {
         setFormData((prev) => ({ ...prev, [name]: numValue }));
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
+  };
+
+  const handleAspectRatioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const ratio = e.target.value;
+    setAspectRatio(ratio);
+    const [widthRatio, heightRatio] = ratio.split(":").map(Number);
+    const newWidth = formData.height * (widthRatio / heightRatio);
+    setFormData((prev) => ({ ...prev, width: Math.round(newWidth) }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -63,7 +73,7 @@ const ImageForm = ({ onGenerate, isLoading }: ImageFormProps) => {
             id="width"
             name="width"
             min="1"
-            max="2000"
+            max="100000"
             value={formData.width}
             onChange={handleInputChange}
             className="w-full rounded border border-gray-300 dark:border-gray-700 px-3 py-2"
@@ -79,12 +89,30 @@ const ImageForm = ({ onGenerate, isLoading }: ImageFormProps) => {
             id="height"
             name="height"
             min="1"
-            max="2000"
+            max="100000"
             value={formData.height}
             onChange={handleInputChange}
             className="w-full rounded border border-gray-300 dark:border-gray-700 px-3 py-2"
           />
         </div>
+      </div>
+
+      <div className="space-y-1">
+        <label htmlFor="aspect-ratio" className="block text-sm font-medium">
+          Aspect Ratio
+        </label>
+        <select
+          id="aspect-ratio"
+          name="aspect-ratio"
+          value={aspectRatio}
+          onChange={handleAspectRatioChange}
+          className="w-full rounded border border-gray-300 dark:border-gray-700 px-3 py-2"
+        >
+          <option value="1:1">1:1</option>
+          <option value="16:9">16:9</option>
+          <option value="4:3">4:3</option>
+          <option value="3:2">3:2</option>
+        </select>
       </div>
 
       <div className="space-y-1">

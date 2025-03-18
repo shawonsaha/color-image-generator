@@ -55,6 +55,7 @@ const ImageDisplay = ({ imageUrl, format }: ImageDisplayProps) => {
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded py-2 px-4 font-medium transition"
+          style={{ pointerEvents: "none", opacity: 0.5 }}
         >
           Open in New Tab
         </a>

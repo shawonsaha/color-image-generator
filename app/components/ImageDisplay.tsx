@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import Image from "next/image";
 
 interface ImageDisplayProps {
   imageUrl: string | null;
@@ -34,9 +35,12 @@ const ImageDisplay = ({ imageUrl, format }: ImageDisplayProps) => {
   return (
     <div className="space-y-4">
       <div className="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 p-1">
-        <img
+        <Image
           src={imageUrl}
           alt="Generated color image"
+          layout="responsive"
+          width={500}
+          height={500}
           className="max-w-full object-contain mx-auto"
           style={{ maxHeight: "400px" }}
         />

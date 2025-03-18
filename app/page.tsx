@@ -4,12 +4,19 @@ import { useState } from "react";
 import ImageForm from "./components/ImageForm";
 import ImageDisplay from "./components/ImageDisplay";
 
+interface FormData {
+  color: string;
+  width: number;
+  height: number;
+  format: "png" | "jpeg" | "webp";
+}
+
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleGenerate = async (formData: any) => {
+  const handleGenerate = async (formData: FormData) => {
     setIsLoading(true);
     setError(null);
 

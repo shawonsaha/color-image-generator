@@ -4,16 +4,22 @@ import Image from "next/image";
 interface ImageDisplayProps {
   imageUrl: string | null;
   format: string;
+  color?: string;
 }
 
-const ImageDisplay = ({ imageUrl, format }: ImageDisplayProps) => {
+const ImageDisplay = ({
+  imageUrl,
+  format,
+  color = "#000000",
+}: ImageDisplayProps) => {
   const downloadLinkRef = useRef<HTMLAnchorElement>(null);
 
   const handleDownload = () => {
     if (imageUrl && downloadLinkRef.current) {
       // Create a dynamic name based on color and format
       const timestamp = new Date().getTime();
-      const filename = `generated-image-${timestamp}.${format}`;
+      const colorCode = color.replace("#", "");
+      const filename = `generated-image-${colorCode}-${timestamp}.${format}`;
 
       // Set download attributes
       downloadLinkRef.current.href = imageUrl;
@@ -49,12 +55,12 @@ const ImageDisplay = ({ imageUrl, format }: ImageDisplayProps) => {
       <div className="flex space-x-2">
         <button
           onClick={handleDownload}
-          className="bg-green-600 hover:bg-green-700 text-white rounded py-2 px-4 font-medium transition"
+          className="bg-green-600 cursor-pointer w-full hover:bg-green-700 text-white rounded py-2 px-4 font-medium transition"
         >
           Download
         </button>
 
-        <a
+        {/* <a
           href={imageUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -62,7 +68,7 @@ const ImageDisplay = ({ imageUrl, format }: ImageDisplayProps) => {
           style={{ pointerEvents: "none", opacity: 0.5 }}
         >
           Open in New Tab
-        </a>
+        </a> */}
 
         {/* Hidden anchor for downloads */}
         <a ref={downloadLinkRef} className="hidden" />

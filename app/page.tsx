@@ -15,10 +15,14 @@ export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentColor, setCurrentColor] = useState<string>("#3b82f6");
+  const [currentFormat, setCurrentFormat] = useState<string>("png");
 
   const handleGenerate = async (formData: FormData) => {
     setIsLoading(true);
     setError(null);
+    setCurrentColor(formData.color);
+    setCurrentFormat(formData.format);
 
     try {
       const response = await fetch("/api/generate-image", {
@@ -60,7 +64,11 @@ export default function Home() {
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <ImageDisplay imageUrl={imageUrl} format="png" />
+            <ImageDisplay
+              imageUrl={imageUrl}
+              format={currentFormat}
+              color={currentColor}
+            />
             {error && (
               <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded">
                 {error}

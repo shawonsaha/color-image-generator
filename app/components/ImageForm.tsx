@@ -15,9 +15,9 @@ interface ImageFormProps {
 
 const ImageForm = ({ onGenerate, isLoading }: ImageFormProps) => {
   const [formData, setFormData] = useState<FormData>({
-    color: "#3b82f6",
-    width: 500,
-    height: 300,
+    color: "#ffffff",
+    width: 1200,
+    height: 1200,
     format: "png",
   });
 
